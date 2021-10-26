@@ -1,0 +1,26 @@
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.active {
+  color: #2F855A;
+}
+
+.loader-component {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.loader-component img {
+  max-width: 100px;
+}
