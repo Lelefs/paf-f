@@ -1,6 +1,5 @@
-import { Box, Text, Stack, Icon } from '@chakra-ui/react';
+import { Box, Text, Stack, Icon, Spinner } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { format, parseISO } from 'date-fns';
 import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
 
 import { useInfos } from '../hooks/infos';
@@ -9,7 +8,7 @@ import { Loader } from './Loader';
 import sortArray from '../utils/sortArray';
 
 export function Current({ user }) {
-  const { data, isLoading } = useInfos(user._id);
+  const { data, isLoading, isFetching } = useInfos(user._id);
   const [currentInfo, setCurrentInfo] = useState({
     date: '-',
     height: '-',
@@ -24,7 +23,7 @@ export function Current({ user }) {
     if (data && data.infos.length) {
       const newArray = sortArray(data.infos, 'date', 'asc');
       setCurrentInfo({
-        date: format(parseISO(newArray[0].date), 'dd/MM/yyyy'),
+        date: newArray[0].formattedDate,
         height: newArray[0].height,
         weight: newArray[0].weight,
       });
@@ -46,6 +45,9 @@ export function Current({ user }) {
     <Box p="6" bg="gray.800" borderRadius={8} pb="2">
       <Text fontSize="lg" mb="4">
         {user.name}
+        {!isLoading && isFetching && (
+          <Spinner size="sm" color="gray.500" ml="4" />
+        )}
       </Text>
       <Stack spacing={4}>
         <Text>
