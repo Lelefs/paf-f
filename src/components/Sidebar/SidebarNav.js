@@ -7,7 +7,7 @@ import { NavSection } from './NavSection';
 
 export function SidebarNav() {
   const { pathname } = useLocation();
-  const { data, isLoading } = useUsers();
+  const { users, isLoading } = useUsers();
 
   return (
     <Stack spacing="8" align="flex-start">
@@ -22,7 +22,7 @@ export function SidebarNav() {
 
       {!isLoading && (
         <NavSection title="Usuários">
-          {data.users.map((user, index) => (
+          {users.map((user, index) => (
             <Link
               key={index}
               to={`/user/${user.name}`}

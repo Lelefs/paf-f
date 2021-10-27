@@ -1,28 +1,36 @@
-import { useQuery } from 'react-query';
+import { createContext, useContext, useEffect, useState } from 'react';
 import api from '../services/api';
 
-export async function getUsers(stringSearch) {
-  let users = [];
+const UsersContext = createContext({
+  isLoading: false,
+  users: [],
+});
 
-  if (stringSearch === '' || !stringSearch) {
-    const response = await api.get('/users/all');
+export const UsersProvider = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [users, setUsers] = useState([]);
 
-    users = response.data;
-  } else {
-    const response = await api.get('/users', {
-      params: {
-        string: stringSearch,
-      },
-    });
+  useEffect(() => {
+    setIsLoading(true);
+    const localUsers = localStorage.getItem('@paf:users');
 
-    users = response.data;
-  }
+    if (!localUsers) {
+      api.get('/users/all').then(res => {
+        setIsLoading(false);
+        localStorage.setItem('@paf:users', JSON.stringify(res.data));
+        setUsers(res.data);
+      });
+    } else {
+      setIsLoading(false);
+      setUsers(JSON.parse(localUsers));
+    }
+  }, []);
 
-  const totalCount = users.length;
+  return (
+    <UsersContext.Provider value={{ isLoading, users }}>
+      {children}
+    </UsersContext.Provider>
+  );
+};
 
-  return { users, totalCount };
-}
-
-export function useUsers(stringSearch) {
-  return useQuery(['users', stringSearch], () => getUsers(stringSearch));
-}
+export const useUsers = () => useContext(UsersContext);

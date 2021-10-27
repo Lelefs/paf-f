@@ -21,6 +21,8 @@ export function Header() {
       mt="4"
       align="center"
       px="6"
+      borderBottom="1px"
+      borderBottomColor="white"
     >
       {!isWideVersion && (
         <IconButton

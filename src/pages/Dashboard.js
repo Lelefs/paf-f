@@ -1,15 +1,16 @@
-import { Flex, SimpleGrid } from '@chakra-ui/react';
+import { Flex, SimpleGrid, Stack, Heading } from '@chakra-ui/react';
 
 import { useUsers } from '../hooks/users';
 
+import { CustomModal } from '../components/CustomModal';
 import { Header } from '../components/Header';
 import { Loader } from '../components/Loader';
 import { Sidebar } from '../components/Sidebar';
 import { SEO } from '../components/SEO';
-import { UserChart } from '../components/UserChart';
+import { Current } from '../components/Current';
 
 export default function Dashboard() {
-  const { data, isLoading } = useUsers();
+  const { users, isLoading } = useUsers();
 
   return (
     <Flex direction="column" h="100vh">
@@ -23,11 +24,22 @@ export default function Dashboard() {
         <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
           <Sidebar />
 
-          <SimpleGrid flex="1" gap="4" minChildWidth="320px" align="flex-start">
-            {data.users.map((user, index) => (
-              <UserChart key={index} user={user} />
-            ))}
-          </SimpleGrid>
+          <Stack w="100%" spacing="4">
+            <Flex>
+              <Heading>Informações atuais</Heading>
+              <CustomModal />
+            </Flex>
+            <SimpleGrid
+              flex="1"
+              gap="4"
+              minChildWidth="390px"
+              align="flex-start"
+            >
+              {users.map((user, index) => (
+                <Current key={index} user={user} />
+              ))}
+            </SimpleGrid>
+          </Stack>
         </Flex>
       )}
     </Flex>
