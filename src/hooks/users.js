@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+
 import api from '../services/api';
+import sortArray from '../utils/sortArray';
 
 const UsersContext = createContext({
   isLoading: false,
@@ -16,13 +18,14 @@ export const UsersProvider = ({ children }) => {
 
     if (!localUsers) {
       api.get('/users/all').then(res => {
-        setIsLoading(false);
-        localStorage.setItem('@paf:users', JSON.stringify(res.data));
+        const newArray = sortArray(res.data, 'name');
+        localStorage.setItem('@paf:users', JSON.stringify(newArray));
         setUsers(res.data);
+        setIsLoading(false);
       });
     } else {
-      setIsLoading(false);
       setUsers(JSON.parse(localUsers));
+      setIsLoading(false);
     }
   }, []);
 

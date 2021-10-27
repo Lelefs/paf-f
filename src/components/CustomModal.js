@@ -18,11 +18,30 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-
+import { useForm } from 'react-hook-form';
 import { AiOutlinePlus } from 'react-icons/ai';
 
+import { useUsers } from '../hooks/users';
+import api from '../services/api';
+
 export function CustomModal() {
+  const { users } = useUsers();
   const [isOpen, setIsOpen] = useState(false);
+  const todayDate = new Date();
+  const todayDateString = `${todayDate.getUTCFullYear()}-${String(
+    todayDate.getUTCMonth(),
+  ).padStart(2, '0')}-${String(todayDate.getUTCDate()).padStart(2, '0')}`;
+
+  const initialValues = {
+    date: todayDateString,
+    height: '',
+    user: '',
+    weight: '',
+  };
+
+  const { register, handleSubmit, formState, reset } = useForm({
+    defaultValues: initialValues,
+  });
 
   function onOpen() {
     setIsOpen(true);
@@ -32,9 +51,24 @@ export function CustomModal() {
     setIsOpen(false);
   }
 
-  function handleSubmit() {
-    alert('VAI SALVAR');
-    setIsOpen(false);
+  async function handleCreate(values) {
+    const date = values.date.split('-').reverse().join('/');
+    const height = Number(values.height);
+    const weight = Number(values.weight);
+
+    try {
+      await api.post('/infos', {
+        date,
+        height,
+        user: values.user,
+        weight,
+      });
+      reset(initialValues);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setIsOpen(false);
+    }
   }
 
   return (
@@ -56,42 +90,52 @@ export function CustomModal() {
           <ModalHeader>Nova informação</ModalHeader>
 
           <ModalBody>
-            <Box as="form" onSubmit={handleSubmit}>
+            <Box as="form" onSubmit={handleSubmit(handleCreate)}>
               <VStack spacing="6">
                 <FormControl id="users">
                   <FormLabel>Usuários</FormLabel>
-                  <Select placeholder="Selecione um usuário">
-                    <option>Daniel</option>
-                    <option>Leandro</option>
+                  <Select
+                    placeholder="Selecione um usuário"
+                    {...register('user')}
+                    name="user"
+                  >
+                    {users.map(user => (
+                      <option key={user._id} value={user._id}>
+                        {user.name}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
 
                 <FormControl id="date">
                   <FormLabel>Data</FormLabel>
-                  <Input placeholder="Selecione uma data" type="date" />
+                  <Input
+                    placeholder="Selecione uma data"
+                    type="date"
+                    {...register('date')}
+                    name="date"
+                  />
                 </FormControl>
 
                 <FormControl id="weight">
                   <FormLabel>Peso</FormLabel>
-                  <NumberInput
-                    precision={2}
-                    max={999}
-                    min={1}
-                    placeholder="Informe o peso"
-                  >
-                    <NumberInputField />
+                  <NumberInput precision={2} max={999} min={1}>
+                    <NumberInputField
+                      placeholder="Informe o peso"
+                      {...register('weight')}
+                      name="weight"
+                    />
                   </NumberInput>
                 </FormControl>
 
                 <FormControl id="height">
                   <FormLabel>Altura</FormLabel>
-                  <NumberInput
-                    precision={2}
-                    max={9}
-                    min={1}
-                    placeholder="Informe a altura"
-                  >
-                    <NumberInputField />
+                  <NumberInput precision={3} max={9} min={0}>
+                    <NumberInputField
+                      placeholder="Informe a altura"
+                      {...register('height')}
+                      name="height"
+                    />
                   </NumberInput>
                 </FormControl>
               </VStack>
@@ -99,14 +143,21 @@ export function CustomModal() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="red" variant="ghost" mr="4" onClick={onClose}>
+            <Button
+              colorScheme="red"
+              variant="ghost"
+              mr="4"
+              onClick={onClose}
+              disabled={formState.isSubmitting}
+            >
               Cancelar
             </Button>
             <Button
               bg="green.600"
               _hover={{ bg: 'green.500' }}
               mr={3}
-              onClick={handleSubmit}
+              onClick={handleSubmit(handleCreate)}
+              isLoading={formState.isSubmitting}
             >
               Salvar
             </Button>
