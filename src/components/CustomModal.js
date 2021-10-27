@@ -52,7 +52,7 @@ export function CustomModal() {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="gray.700">
           <ModalHeader>Nova informação</ModalHeader>
 
           <ModalBody>

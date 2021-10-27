@@ -21,12 +21,12 @@ export default function Dashboard() {
       {isLoading ? (
         <Loader />
       ) : (
-        <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
+        <Flex w="100%" my="6" maxWidth={1480} mx="auto" px={['2', '2', '6']}>
           <Sidebar />
 
           <Stack w="100%" spacing="4">
             <Flex>
-              <Heading>Informações atuais</Heading>
+              <Heading>Atual</Heading>
               <CustomModal />
             </Flex>
             <SimpleGrid
