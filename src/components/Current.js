@@ -5,7 +5,6 @@ import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
 import { useInfos } from '../hooks/infos';
 
 import { Loader } from './Loader';
-import sortArray from '../utils/sortArray';
 
 export function Current({ user }) {
   const { data, isLoading, isFetching } = useInfos(user._id);
@@ -21,17 +20,16 @@ export function Current({ user }) {
 
   useEffect(() => {
     if (data && data.infos.length) {
-      const newArray = sortArray(data.infos, 'date', 'asc');
       setCurrentInfo({
-        date: newArray[0].formattedDate,
-        height: newArray[0].height,
-        weight: newArray[0].weight,
+        date: data.infos[0].formattedDate,
+        height: data.infos[0].height,
+        weight: data.infos[0].weight,
       });
 
-      if (newArray.length > 1) {
+      if (data.infos.length > 1) {
         setLastInfo({
-          height: newArray[1].height,
-          weight: newArray[1].weight,
+          height: data.infos[1].height,
+          weight: data.infos[1].weight,
         });
       }
     }

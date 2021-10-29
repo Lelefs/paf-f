@@ -1,5 +1,4 @@
 import { useQuery } from 'react-query';
-import { format, parseISO } from 'date-fns';
 
 import api from '../services/api';
 
@@ -9,7 +8,8 @@ export async function getInfos(userId) {
   const response = await api.get(`/infos/${userId}/all`);
 
   response.data.forEach(info => {
-    info.formattedDate = format(parseISO(info.date), 'dd/MM/yyyy');
+    const date = info.date.split('T')[0];
+    info.formattedDate = date.split('-').reverse().join('/');
   });
 
   infos = response.data;
