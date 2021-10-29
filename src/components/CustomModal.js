@@ -29,7 +29,7 @@ export function CustomModal() {
   const [isOpen, setIsOpen] = useState(false);
   const todayDate = new Date();
   const todayDateString = `${todayDate.getUTCFullYear()}-${String(
-    todayDate.getUTCMonth(),
+    todayDate.getUTCMonth() + 1,
   ).padStart(2, '0')}-${String(todayDate.getUTCDate()).padStart(2, '0')}`;
 
   const initialValues = {
@@ -53,8 +53,16 @@ export function CustomModal() {
 
   async function handleCreate(values) {
     const date = values.date.split('-').reverse().join('/');
-    const height = Number(values.height);
     const weight = Number(values.weight);
+    let height = 0;
+
+    if (!values.height) {
+      const res = await api.get(`/infos/${values.user}/all`);
+
+      height = res.data[0].height;
+    } else {
+      height = Number(values.height);
+    }
 
     try {
       await api.post('/infos', {

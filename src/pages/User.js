@@ -20,7 +20,6 @@ export default function User({ match }) {
   const localUsers = JSON.parse(localStorage.getItem('@paf:users'));
   const user = localUsers.filter(u => u.name === username);
   const { data, isLoading } = useInfos(user[0]._id);
-  console.log(data);
 
   if (isLoading) {
     return <Loader />;
