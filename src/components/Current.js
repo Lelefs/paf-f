@@ -23,7 +23,7 @@ export function Current({ user }) {
       setCurrentInfo({
         date: data.infos[0].formattedDate,
         height: data.infos[0].height,
-        weight: data.infos[0].weight,
+        weight: data.infos[0].weight.toFixed(2),
       });
 
       if (data.infos.length > 1) {
@@ -91,9 +91,15 @@ export function Current({ user }) {
             )}
         </Stack>
         <Stack>
-          <Text>
-            <b>Altura:</b> {currentInfo.height} m
-          </Text>
+          {currentInfo.height < 1 ? (
+            <Text>
+              <b>Altura:</b> {currentInfo.height * 100} cm
+            </Text>
+          ) : (
+            <Text>
+              <b>Altura:</b> {currentInfo.height} m
+            </Text>
+          )}
           {lastInfo.height !== '-' &&
             currentInfo.height - lastInfo.height !== 0 && (
               <>

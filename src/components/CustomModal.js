@@ -138,7 +138,7 @@ export function CustomModal() {
 
                 <FormControl id="height">
                   <FormLabel>Altura</FormLabel>
-                  <NumberInput precision={3} max={9} min={0}>
+                  <NumberInput precision={2} max={9} min={0}>
                     <NumberInputField
                       placeholder="Informe a altura"
                       {...register('height')}

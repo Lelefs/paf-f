@@ -1,6 +1,7 @@
 import {
   Flex,
   Heading,
+  Icon,
   Table,
   Thead,
   Tbody,
@@ -8,6 +9,7 @@ import {
   Th,
   Td,
 } from '@chakra-ui/react';
+import { IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
 
 import { useInfos } from '../hooks/infos';
 import { Header } from '../components/Header';
@@ -46,11 +48,33 @@ export default function User({ match }) {
               </Tr>
             </Thead>
             <Tbody>
-              {data.infos.map(info => (
+              {data.infos.map((info, index) => (
                 <Tr key={info._id}>
                   <Td>{info.formattedDate}</Td>
-                  <Td>{info.weight} kg</Td>
-                  {username === 'Daniel' ? (
+                  <Td>
+                    {info.weight.toFixed(2)} kg
+                    {index !== data.infos.length - 1 &&
+                      info.weight - data.infos[index + 1].weight !== 0 && (
+                        <>
+                          {info.weight > data.infos[index + 1].weight ? (
+                            <Icon
+                              as={IoMdArrowDropup}
+                              fontSize="20"
+                              color="green.600"
+                              ml="2"
+                            />
+                          ) : (
+                            <Icon
+                              as={IoMdArrowDropdown}
+                              fontSize="20"
+                              color="red.600"
+                              ml="2"
+                            />
+                          )}
+                        </>
+                      )}
+                  </Td>
+                  {info.height < 1 ? (
                     <Td>{info.height * 100} cm</Td>
                   ) : (
                     <Td>{info.height} m</Td>
