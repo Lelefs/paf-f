@@ -129,7 +129,7 @@ export function CustomModal() {
                   <FormLabel>Peso</FormLabel>
                   <NumberInput precision={2} max={999} min={1}>
                     <NumberInputField
-                      placeholder="Informe o peso"
+                      placeholder="Informe o peso (em Kg)"
                       {...register('weight')}
                       name="weight"
                     />
@@ -140,7 +140,7 @@ export function CustomModal() {
                   <FormLabel>Altura</FormLabel>
                   <NumberInput precision={2} max={9} min={0}>
                     <NumberInputField
-                      placeholder="Informe a altura"
+                      placeholder="Informe a altura (em cm)"
                       {...register('height')}
                       name="height"
                     />
