@@ -72,6 +72,10 @@ export function CustomModal() {
         weight,
       });
       reset(initialValues);
+      setTimeout(() => {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+      }, 200);
     } catch (err) {
       alert(err.message);
     } finally {

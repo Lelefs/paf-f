@@ -23,9 +23,13 @@ export default function Dashboard() {
         activity: 'Cocô',
         user: '61770bf550f09139d0715e68',
       });
+
+      setTimeout(() => {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+      }, 200);
     } catch (err) {
       alert(err.message);
-    } finally {
       setLoading(false);
     }
   }
