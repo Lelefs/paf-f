@@ -9,7 +9,7 @@
 }
 
 .active {
-  color: #2F855A;
+  color: #2f855a;
 }
 
 .loader-component {
@@ -23,4 +23,16 @@
 
 .loader-component img {
   max-width: 100px;
+}
+
+.text-center {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.font-small-mobile {
+  @media (max-width: 720px) {
+    font-size: 14px;
+  }
 }

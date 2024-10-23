@@ -1,5 +1,6 @@
-import { Flex, SimpleGrid, Stack, Heading } from '@chakra-ui/react';
+import { Flex, SimpleGrid, Stack, Heading, Button } from '@chakra-ui/react';
 
+import { useState } from 'react';
 import { useUsers } from '../hooks/users';
 
 import { CustomModal } from '../components/CustomModal';
@@ -8,9 +9,26 @@ import { Loader } from '../components/Loader';
 import { Sidebar } from '../components/Sidebar';
 import { SEO } from '../components/SEO';
 import { Current } from '../components/Current';
+import { CurrentActivity } from '../components/CurrentActivity';
+import api from '../services/api';
 
 export default function Dashboard() {
   const { users, isLoading } = useUsers();
+  const [loading, setLoading] = useState();
+
+  async function handleCreateActivity() {
+    setLoading(true);
+    try {
+      await api.post('/activities', {
+        activity: 'Cocô',
+        user: '61770bf550f09139d0715e68',
+      });
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Flex direction="column" h="100vh">
@@ -18,7 +36,7 @@ export default function Dashboard() {
 
       <Header />
 
-      {isLoading ? (
+      {isLoading || loading ? (
         <Loader />
       ) : (
         <Flex w="100%" my="6" maxWidth={1480} mx="auto" px={['2', '2', '6']}>
@@ -27,17 +45,41 @@ export default function Dashboard() {
           <Stack w="100%" spacing="4">
             <Flex>
               <Heading>Atual</Heading>
+
               <CustomModal />
+
+              <Button
+                bg="green.800"
+                ml="8"
+                _hover={{ bg: 'green.700' }}
+                variant="solid"
+                onClick={() => handleCreateActivity()}
+              >
+                Fez cocô
+              </Button>
             </Flex>
+
             <SimpleGrid
               flex="1"
-              gap="4"
-              minChildWidth="390px"
+              gap="6"
+              minChildWidth="380px"
               align="flex-start"
             >
-              {users.map((user, index) => (
-                <Current key={index} user={user} />
-              ))}
+              {users.map((user, index) => {
+                if (index === 0) {
+                  return (
+                    <>
+                      <CurrentActivity
+                        key={`${index}${user._id}activity`}
+                        user={user}
+                      />
+
+                      <Current key={`${index}${user._id}info`} user={user} />
+                    </>
+                  );
+                }
+                return <Current key={`${index}${user._id}`} user={user} />;
+              })}
             </SimpleGrid>
           </Stack>
         </Flex>

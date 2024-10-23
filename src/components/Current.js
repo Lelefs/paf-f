@@ -59,7 +59,12 @@ export function Current({ user }) {
             currentInfo.weight - lastInfo.weight !== 0 && (
               <>
                 {lastInfo.weight < currentInfo.weight ? (
-                  <Text fontSize="sm" as="i" color="gray.400">
+                  <Text
+                    className="text-center"
+                    fontSize="sm"
+                    as="i"
+                    color="gray.400"
+                  >
                     <Icon
                       as={IoMdArrowDropup}
                       fontSize="20"
@@ -73,7 +78,12 @@ export function Current({ user }) {
                     kg
                   </Text>
                 ) : (
-                  <Text fontSize="sm" as="i" color="gray.400">
+                  <Text
+                    className="text-center"
+                    fontSize="sm"
+                    as="i"
+                    color="gray.400"
+                  >
                     <Icon
                       as={IoMdArrowDropdown}
                       fontSize="20"
@@ -104,7 +114,12 @@ export function Current({ user }) {
             currentInfo.height - lastInfo.height !== 0 && (
               <>
                 {lastInfo.height < currentInfo.height ? (
-                  <Text fontSize="sm" as="i" color="gray.400">
+                  <Text
+                    className="text-center"
+                    fontSize="sm"
+                    as="i"
+                    color="gray.400"
+                  >
                     <Icon
                       as={IoMdArrowDropup}
                       fontSize="20"
@@ -118,7 +133,12 @@ export function Current({ user }) {
                     cm
                   </Text>
                 ) : (
-                  <Text fontSize="sm" as="i" color="gray.400">
+                  <Text
+                    className="text-center"
+                    fontSize="sm"
+                    as="i"
+                    color="gray.400"
+                  >
                     <Icon
                       as={IoMdArrowDropdown}
                       fontSize="20"
