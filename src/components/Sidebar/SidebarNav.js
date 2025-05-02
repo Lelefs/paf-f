@@ -24,7 +24,7 @@ export function SidebarNav() {
         <NavSection title="Usuários">
           {users.map((user, index) => (
             <Link
-              key={index}
+              key={`0${index}-sidenavbar`}
               to={`/user/${user.name}`}
               className={
                 pathname === `/user/${user.name}` ? 'link active' : 'link'

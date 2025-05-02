@@ -88,7 +88,7 @@ export function CustomModal() {
       <Button
         leftIcon={<Icon as={AiOutlinePlus} />}
         bg="green.800"
-        ml="8"
+        ml="4"
         _hover={{ bg: 'green.700' }}
         variant="solid"
         onClick={onOpen}
@@ -112,7 +112,7 @@ export function CustomModal() {
                     name="user"
                   >
                     {users.map(user => (
-                      <option key={user._id} value={user._id}>
+                      <option key={`${user._id}-custommodal`} value={user._id}>
                         {user.name}
                       </option>
                     ))}

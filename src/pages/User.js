@@ -49,7 +49,10 @@ export default function User({ match }) {
             </Thead>
             <Tbody>
               {data.infos.map((info, index) => (
-                <Tr className="font-small-mobile" key={info._id}>
+                <Tr
+                  className="font-small-mobile"
+                  key={`0${index}-${info._id}-usersfile`}
+                >
                   <Td>{info.formattedDate}</Td>
                   <Td>
                     {info.weight.toFixed(2)} kg

@@ -10,6 +10,7 @@ export function CurrentActivity({ user }) {
   const [currentActivity, setCurrentActivity] = useState({
     date: '-',
     differenceDays: 0,
+    time: '-',
   });
 
   useEffect(() => {
@@ -17,6 +18,7 @@ export function CurrentActivity({ user }) {
       setCurrentActivity({
         date: data.activities[0].formattedDate,
         differenceDays: data.activities[0].differenceDays,
+        time: data.activities[0].time,
       });
     }
   }, [data]);
@@ -36,7 +38,7 @@ export function CurrentActivity({ user }) {
 
       <Stack spacing={4}>
         <Text>
-          <b>Última vez:</b> {currentActivity.date}
+          <b>Última vez:</b> {currentActivity.date} às {currentActivity.time}
         </Text>
 
         <Text fontSize="sm" as="i" color="gray.400">

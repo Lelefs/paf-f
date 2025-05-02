@@ -3,11 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "airbnb",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["plugin:react/recommended", "plugin:prettier/recommended"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -20,11 +16,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "prettier"
-  ],
+  "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
     "import/no-cycle": 0,
     "import/no-named-as-default": 0,

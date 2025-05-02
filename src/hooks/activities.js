@@ -16,6 +16,10 @@ export async function getActivities(userId) {
     );
     activity.formattedDate = date.split('-').reverse().join('/');
     activity.differenceDays = differenceDays;
+    activity.time = new Date(activity.date).toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   });
 
   activities = response.data;

@@ -16,12 +16,13 @@ export default function Dashboard() {
   const { users, isLoading } = useUsers();
   const [loading, setLoading] = useState();
 
-  async function handleCreateActivity() {
+  async function handleCreateActivity(userId) {
     setLoading(true);
+
     try {
       await api.post('/activities', {
         activity: 'Cocô',
-        user: '61770bf550f09139d0715e68',
+        user: userId,
       });
 
       setTimeout(() => {
@@ -54,12 +55,22 @@ export default function Dashboard() {
 
               <Button
                 bg="green.800"
-                ml="8"
+                ml="4"
                 _hover={{ bg: 'green.700' }}
                 variant="solid"
-                onClick={() => handleCreateActivity()}
+                onClick={() => handleCreateActivity('61770bf550f09139d0715e68')}
               >
-                Fez cocô
+                Dani fez cocô
+              </Button>
+
+              <Button
+                bg="green.800"
+                ml="4"
+                _hover={{ bg: 'green.700' }}
+                variant="solid"
+                onClick={() => handleCreateActivity('6717b9de7212f8834187e9d4')}
+              >
+                Samuca fez cocô
               </Button>
             </Flex>
 
@@ -70,19 +81,20 @@ export default function Dashboard() {
               align="flex-start"
             >
               {users.map((user, index) => {
-                if (index === 0) {
+                if (index !== 1) {
                   return (
                     <>
                       <CurrentActivity
-                        key={`${index}${user._id}activity`}
+                        key={`0${index}-${user._id}-activity`}
                         user={user}
                       />
-
-                      <Current key={`${index}${user._id}info`} user={user} />
                     </>
                   );
                 }
-                return <Current key={`${index}${user._id}`} user={user} />;
+              })}
+
+              {users.map((user, index) => {
+                return <Current key={`0${index}-${user._id}`} user={user} />;
               })}
             </SimpleGrid>
           </Stack>
