@@ -60,7 +60,9 @@ export default function Dashboard() {
                 variant="solid"
                 onClick={() => handleCreateActivity('61770bf550f09139d0715e68')}
               >
-                Dani fez cocô
+                Dani
+                <br />
+                fez cocô
               </Button>
 
               <Button
@@ -70,7 +72,9 @@ export default function Dashboard() {
                 variant="solid"
                 onClick={() => handleCreateActivity('6717b9de7212f8834187e9d4')}
               >
-                Samuca fez cocô
+                Samuca
+                <br />
+                fez cocô
               </Button>
             </Flex>
 
