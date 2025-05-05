@@ -9,17 +9,20 @@ export async function getActivities(userId) {
   const response = await api.get(`/activities/${userId}/all`);
 
   response.data.forEach(activity => {
-    const date = activity.date.split('T')[0];
+    const date = new Date(activity.date).toLocaleTimeString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
     const differenceDays = differenceInDays(
       new Date(),
       new Date(activity.date),
     );
-    activity.formattedDate = date.split('-').reverse().join('/');
+    activity.formattedDate = date.split(', ')[0];
     activity.differenceDays = differenceDays;
-    activity.time = new Date(activity.date).toLocaleTimeString('pt-BR', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    activity.time = date.split(', ')[1];
   });
 
   activities = response.data;

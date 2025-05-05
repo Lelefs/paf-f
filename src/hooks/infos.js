@@ -8,8 +8,12 @@ export async function getInfos(userId) {
   const response = await api.get(`/infos/${userId}/all`);
 
   response.data.forEach(info => {
-    const date = info.date.split('T')[0];
-    info.formattedDate = date.split('-').reverse().join('/');
+    const date = new Date(info.date).toLocaleTimeString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    });
+    info.formattedDate = date.split(', ')[0];
   });
 
   infos = response.data;
