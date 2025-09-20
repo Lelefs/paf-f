@@ -1,6 +1,5 @@
 import {
   Flex,
-  Icon,
   Table,
   Thead,
   Tbody,
@@ -16,7 +15,7 @@ import {
   FormLabel,
   Button,
 } from '@chakra-ui/react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
