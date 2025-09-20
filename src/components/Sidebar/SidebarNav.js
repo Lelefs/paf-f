@@ -18,6 +18,16 @@ export function SidebarNav() {
             Início
           </Text>
         </Link>
+
+        <Link
+          to="/calculadora"
+          className={pathname === '/calculadora' ? 'link active' : 'link'}
+        >
+          <Icon as={RiHome2Line} fontSize="20" />
+          <Text ml="4" fontWeight="medium">
+            Calculadora
+          </Text>
+        </Link>
       </NavSection>
 
       {!isLoading && (
