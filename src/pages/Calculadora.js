@@ -6,6 +6,7 @@ import {
   Tr,
   Th,
   Td,
+  Icon,
   Input,
   NumberInput,
   NumberInputField,
@@ -14,8 +15,10 @@ import {
   FormControl,
   FormLabel,
   Button,
+  IconButton,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
+import { GoTrash } from 'react-icons/go';
 
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
@@ -32,9 +35,24 @@ export default function Calculadora() {
     valor: 0,
   };
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, reset } = useForm({
     defaultValues: initialValues,
   });
+
+  function deleteAll() {
+    localStorage.removeItem('@paf:itens');
+    setItens([]);
+    reset(initialValues);
+  }
+
+  function deleteOne(item) {
+    const currentItens = JSON.parse(localStorage.getItem('@paf:itens')) || [];
+    const newItens = currentItens.filter(
+      i => JSON.stringify(i) !== JSON.stringify(item),
+    );
+    localStorage.setItem('@paf:itens', JSON.stringify(newItens));
+    setItens(newItens);
+  }
 
   function handleCreate(values) {
     const valorPorKg = formatMoney((values.valor * 1000) / values.peso);
@@ -47,13 +65,13 @@ export default function Calculadora() {
 
     localStorage.setItem('@paf:itens', JSON.stringify(newItens));
     setItens(newItens);
+    reset(initialValues);
     setValue('nome', '');
     setValue('peso', 0);
     setValue('valor', 0);
   }
 
   function formatMoney(value) {
-    console.log('111111111');
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
@@ -108,9 +126,20 @@ export default function Calculadora() {
               bg="green.600"
               _hover={{ bg: 'green.500' }}
               type="submit"
-              mt="4"
+              mt="6"
             >
               Calcular e salvar
+            </Button>
+
+            <Button
+              bg="blue.600"
+              _hover={{ bg: 'blue.500' }}
+              type="button"
+              onClick={deleteAll}
+              mt="6"
+              ml="12"
+            >
+              Limpar lista
             </Button>
           </Box>
 
@@ -121,6 +150,7 @@ export default function Calculadora() {
                 <Th>Peso</Th>
                 <Th>Valor</Th>
                 <Th>Valor por Kg</Th>
+                <Th>Ação</Th>
               </Tr>
             </Thead>
 
@@ -134,6 +164,16 @@ export default function Calculadora() {
                   <Td>{item.valor}</Td>
 
                   <Td>{item.valorPorKg}</Td>
+
+                  <Td>
+                    <IconButton
+                      aria-label="Excluir item"
+                      icon={<Icon as={GoTrash} />}
+                      fontSize="20"
+                      variant="unstyled"
+                      onClick={() => deleteOne(item)}
+                    />
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
